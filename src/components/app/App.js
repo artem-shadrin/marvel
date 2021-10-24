@@ -5,21 +5,25 @@ import CharInfo from "../charInfo/CharInfo";
 
 import decoration from "../../resources/img/vision.png";
 import { useState } from "react";
+import ErrorBoundary from "../errorBoundary/ErrorBoundary";
 
 const App = () => {
   const [charId, setCharId] = useState(null);
-  const onUpdateChar = (id) => {
-    setCharId(id);
-    console.log(id);
-  };
+  const onUpdateChar = (id) => setCharId(id);
   return (
     <div className="app">
       <AppHeader />
       <main>
-        <RandomChar />
+        <ErrorBoundary>
+          <RandomChar />
+        </ErrorBoundary>
         <div className="char__content">
-          <CharList onUpdateChar={onUpdateChar} />
-          <CharInfo charId={charId} />
+          <ErrorBoundary>
+            <CharList onUpdateChar={onUpdateChar} />
+          </ErrorBoundary>
+          <ErrorBoundary>
+            <CharInfo charId={charId} />
+          </ErrorBoundary>
         </div>
         <img className="bg-decoration" src={decoration} alt="vision" />
       </main>
