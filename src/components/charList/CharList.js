@@ -39,8 +39,21 @@ export default class CharList extends Component {
       .then(this.onCharListLoaded)
       .catch(this.onError);
   };
+  itemRefs = [];
+
+  setRef = (ref) => {
+    this.itemRefs.push(ref);
+  };
+
+  focusOnItem = (id) => {
+    this.itemRefs.forEach((item) =>
+      item.classList.remove("char__item_selected")
+    );
+    this.itemRefs[id].classList.add("char__item_selected");
+    this.itemRefs[id].focus();
+  };
   renderItems = (arr) => {
-    const items = arr.map((char) => {
+    const items = arr.map((char, i) => {
       const { name, thumbnail, id } = char;
       const imgStyle =
         thumbnail.indexOf("image_not_available.jpg") !== -1
@@ -51,7 +64,18 @@ export default class CharList extends Component {
         <li
           className="char__item"
           key={id}
-          onClick={() => this.props.onUpdateChar(id)}
+          tabIndex={0}
+          onClick={() => {
+            this.props.onUpdateChar(id);
+            this.focusOnItem(i);
+          }}
+          ref={this.setRef}
+          onKeyPress={(e) => {
+            if (e.key === " " || e.key === "Enter") {
+              this.props.onUpdateChar(id);
+              this.focusOnItem(i);
+            }
+          }}
         >
           <img src={thumbnail} alt="thumbnail" style={imgStyle} />
           <div className="char__name">{name}</div>
@@ -60,6 +84,7 @@ export default class CharList extends Component {
     });
     return <ul className="char__grid">{items}</ul>;
   };
+
   render() {
     const {
       charList,
