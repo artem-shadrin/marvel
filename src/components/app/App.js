@@ -1,33 +1,41 @@
 import AppHeader from "../appHeader/AppHeader";
-import RandomChar from "../randomChar/RandomChar";
-import CharList from "../charList/CharList";
-import CharInfo from "../charInfo/CharInfo";
-
+import { lazy, Suspense } from "react";
 import decoration from "../../resources/img/vision.png";
-import { useState } from "react";
-import ErrorBoundary from "../errorBoundary/ErrorBoundary";
+import { BrowserRouter, Route, Switch } from "react-router-dom";
 
+import Spinner from "../spinner/Spinner";
+
+const ComicsPage = lazy(() => import("../pages/ComicsPage"));
+const MainPage = lazy(() => import("../pages/MainPage"));
+const SingleComicPage = lazy(() => import("../pages/SingleComicPage"));
+const Page404 = lazy(() => import("../pages/Page404"));
 const App = () => {
-  const [charId, setCharId] = useState(null);
-  const onUpdateChar = (id) => setCharId(id);
   return (
-    <div className="app">
-      <AppHeader />
-      <main>
-        <ErrorBoundary>
-          <RandomChar />
-        </ErrorBoundary>
-        <div className="char__content">
-          <ErrorBoundary>
-            <CharList onUpdateChar={onUpdateChar} />
-          </ErrorBoundary>
-          <ErrorBoundary>
-            <CharInfo charId={charId} />
-          </ErrorBoundary>
-        </div>
-        <img className="bg-decoration" src={decoration} alt="vision" />
-      </main>
-    </div>
+    <BrowserRouter>
+      <div className="app">
+        <AppHeader />
+        <main>
+          <Suspense fallback={<Spinner />}>
+            <Switch>
+              <Route exact path="/">
+                <MainPage />
+              </Route>
+
+              <Route exact path="/comics">
+                <ComicsPage />
+              </Route>
+              <Route exact path="/comics/:comicId">
+                <SingleComicPage />
+              </Route>
+              <Route path="*">
+                <Page404 />
+              </Route>
+            </Switch>
+          </Suspense>
+          <img className="bg-decoration" src={decoration} alt="vision" />
+        </main>
+      </div>
+    </BrowserRouter>
   );
 };
 
