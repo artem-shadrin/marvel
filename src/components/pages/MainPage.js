@@ -1,6 +1,7 @@
 import { useState } from "react/cjs/react.development";
 import CharInfo from "../charInfo/CharInfo";
 import CharList from "../charList/CharList";
+import CharSearchForm from "../charSearchForm/CharSearchForm";
 import ErrorBoundary from "../errorBoundary/ErrorBoundary";
 import RandomChar from "../randomChar/RandomChar";
 
@@ -18,6 +19,9 @@ const MainPage = () => {
         </ErrorBoundary>
         <ErrorBoundary>
           <CharInfo charId={charId} />
+        </ErrorBoundary>
+        <ErrorBoundary>
+          <CharSearchForm />
         </ErrorBoundary>
       </div>
     </>

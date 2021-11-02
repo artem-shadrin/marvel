@@ -11,6 +11,7 @@ const CharInfo = ({ charId }) => {
   const { error, loading, getCharacterById, clearError } = useMarvelService();
   useEffect(() => {
     updateChar();
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [charId]);
 
   const onCharLoaded = (char) => {
