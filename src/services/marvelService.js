@@ -3,7 +3,8 @@ import { useHttp } from "../hooks/http.hook";
 const useMarvelService = () => {
   const _apiKey = "apikey=55c7d7d8018d2bc19dc08d0f9c83d3b7";
   const _apiBase = "https://gateway.marvel.com:443/v1/public/";
-  const { loading, error, request, clearError } = useHttp();
+  const {request,  process, setProcess } =
+    useHttp();
 
   const getAllCharacters = async (limit = 9, offset = 210) => {
     const res = await request(
@@ -62,14 +63,13 @@ const useMarvelService = () => {
     price: comics.prices.price ? `${comics.prices.price}$` : "not available",
   });
   return {
-    error,
-    loading,
-    clearError,
+    process,
     getAllCharacters,
     getCharacterById,
     getAllComics,
     getComicById,
     getCharacterByName,
+    setProcess,
   };
 };
 export default useMarvelService;

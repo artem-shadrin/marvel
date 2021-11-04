@@ -1,44 +1,32 @@
 import "./charInfo.scss";
 import { useEffect, useState } from "react";
 
-import Skeleton from "../skeleton/Skeleton";
-import ErrorMessage from "../errorMessage/ErrorMessage";
-import Spinner from "../spinner/Spinner";
 import useMarvelService from "../../services/marvelService";
 import { Link } from "react-router-dom";
+import setContent from "../../utils/setContent";
+
 const CharInfo = ({ charId }) => {
   const [char, setChar] = useState(null);
-  const { error, loading, getCharacterById, clearError } = useMarvelService();
+  const { process, getCharacterById,  setProcess } =
+    useMarvelService();
   useEffect(() => {
     updateChar();
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [charId]);
 
-  const onCharLoaded = (char) => {
-    setChar(char);
-  };
+  const onCharLoaded = (char) => setChar(char);
   const updateChar = () => {
     if (!charId) return;
-    clearError();
-    getCharacterById(charId).then(onCharLoaded);
+    getCharacterById(charId)
+      .then(onCharLoaded)
+      .then(() => setProcess("confirmed"));
   };
 
-  const skeleton = !(char || loading || error) ? <Skeleton /> : null;
-  const errorMessage = error ? <ErrorMessage /> : null;
-  const loaded = loading ? <Spinner /> : null;
-  const content = !(loading || error) && char ? <View char={char} /> : null;
-  return (
-    <div className="char__info">
-      {skeleton}
-      {errorMessage}
-      {loaded}
-      {content}
-    </div>
-  );
+  return <div className="char__info">{setContent(process, View, char)}</div>;
 };
 
-const View = ({ char }) => {
-  const { name, description, thumbnail, homepage, wiki, comics } = char;
+const View = ({ data }) => {
+  const { name, description, thumbnail, homepage, wiki, comics } = data;
   const comicsList = comics.length ? (
     <Comics comics={comics} />
   ) : (

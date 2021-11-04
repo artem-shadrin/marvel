@@ -84,10 +84,10 @@ const CharSearchForm = () => {
             />
           </Form>
         </Formik>
+        {results}
+        {errorMessage}
+        {loadingMessage}
       </div>
-      {results}
-      {errorMessage}
-      {loadingMessage}
     </>
   );
 };

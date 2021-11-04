@@ -17,12 +17,14 @@ const MainPage = () => {
         <ErrorBoundary>
           <CharList onUpdateChar={onUpdateChar} />
         </ErrorBoundary>
-        <ErrorBoundary>
-          <CharInfo charId={charId} />
-        </ErrorBoundary>
-        <ErrorBoundary>
-          <CharSearchForm />
-        </ErrorBoundary>
+        <div>
+          <ErrorBoundary>
+            <CharInfo charId={charId} />
+          </ErrorBoundary>
+          <ErrorBoundary>
+            <CharSearchForm />
+          </ErrorBoundary>
+        </div>
       </div>
     </>
   );

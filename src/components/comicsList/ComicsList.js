@@ -1,28 +1,31 @@
 import "./comicsList.scss";
 import useMarvelService from "../../services/marvelService";
 import { useEffect, useState } from "react";
-import ErrorMessage from "../errorMessage/ErrorMessage";
-import Spinner from "../spinner/Spinner";
 import { Link } from "react-router-dom";
 import { TransitionGroup, CSSTransition } from "react-transition-group";
+import setContent from "../../utils/setContent";
 
 const ComicsList = () => {
   const [comicsList, setComicsList] = useState([]);
+  const [newItemLoading, setNewItemLoading] = useState(false);
   const [comicsListOffset, setComicsListOffset] = useState(100);
   const [comicsListEnded, setComicsListEnded] = useState(false);
-  const { error, loading, getAllComics, clearError } = useMarvelService();
+  const { getAllComics, setProcess, process } = useMarvelService();
   useEffect(() => {
     onRequest(comicsListOffset, false);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
   const onRequest = (offset = comicsListOffset, initial = true) => {
-    clearError();
-    getAllComics(8, comicsListOffset).then(onComicsLoaded);
+    setNewItemLoading(initial);
+    getAllComics(8, comicsListOffset)
+      .then(onComicsLoaded)
+      .then(() => setProcess("confirmed"));
   };
   const onComicsLoaded = (comics) => {
     if (comics.lenght < 8) {
       setComicsListEnded(true);
     }
+    setNewItemLoading(false);
     setComicsList((comicsList) => [...comicsList, ...comics]);
     setComicsListOffset((comicsListOffset) => comicsListOffset + 8);
   };
@@ -52,17 +55,15 @@ const ComicsList = () => {
 
     return <ul className="comics__grid">{items}</ul>;
   };
-  const errorMessage = error ? <ErrorMessage /> : null;
-  const loadingComics = loading ? <Spinner /> : null;
+
   return (
     <div className="comics__list">
-      {errorMessage}
-      {loadingComics}
+      {setContent(process, () => renderItems(comicsList))}
       {renderItems(comicsList)}
       <button
         className="button button__main button__long"
         onClick={onRequest}
-        disabled={loading}
+        disabled={newItemLoading}
         style={{ display: comicsListEnded ? "none" : "block" }}
       >
         <div className="inner">load more</div>
