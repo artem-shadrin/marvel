@@ -7,45 +7,60 @@ import {
 } from "formik";
 import useMarvelService from "../../services/marvelService";
 import { useState } from "react";
-import ErrorMessage from "../errorMessage/ErrorMessage";
-import Spinner from "../spinner/Spinner";
 import { Link } from "react-router-dom";
 
 import "./charSearchForm.scss";
+import Spinner from "../spinner/Spinner";
+import ErrorMessage from "../errorMessage/ErrorMessage";
 
+const setContent = (process, Component, data) => {
+  switch (process) {
+    case "waiting":
+      break;
+    case "loading":
+      return <Spinner />;
+    case "confirmed":
+      return <Component data={data} />;
+    case "error":
+      return <ErrorMessage />;
+    default:
+      throw new Error("Unexpected process state");
+  }
+};
 const CharSearchForm = () => {
   const [char, setChar] = useState(null);
-  const { loading, error, getCharacterByName, clearError } = useMarvelService();
+  const { getCharacterByName, setProcess, process } = useMarvelService();
   const onCharLoaded = (char) => {
     setChar(char);
   };
   const updateChar = (charName) => {
-    clearError();
-    getCharacterByName(charName).then(onCharLoaded);
+    getCharacterByName(charName)
+      .then(onCharLoaded)
+      .then(() => setProcess("confirmed"));
   };
-  const errorMessage = error ? (
-    <div className="char__search-critical-error">
-      <ErrorMessage />
-    </div>
-  ) : null;
-  const loadingMessage = loading ? <Spinner /> : null;
-  const results = !char ? null : char.length > 0 ? (
-    <div className="char__search-wrapper">
-      <div className="char__search-success">
-        There is! Visit {char[0].name} page?
+  const results = ({ data }) => {
+    console.log(data);
+    if (!data ? null : data.length > 0) {
+      return (
+        <div className="char__search-wrapper">
+          <div className="char__search-success">
+            There is! Visit {data[0].name} page?
+          </div>
+          <Link
+            to={`/characters/${data[0].id}`}
+            className="button button__secondary"
+          >
+            <div className="inner">To page</div>
+          </Link>
+        </div>
+      );
+    }
+    return (
+      <div className="char__search-error">
+        The character was not found. Check the name and try again
       </div>
-      <Link
-        to={`/characters/${char[0].id}`}
-        className="button button__secondary"
-      >
-        <div className="inner">To page</div>
-      </Link>
-    </div>
-  ) : (
-    <div className="char__search-error">
-      The character was not found. Check the name and try again
-    </div>
-  );
+    );
+  };
   return (
     <>
       <div className="char__search-form">
@@ -72,7 +87,7 @@ const CharSearchForm = () => {
               <button
                 type="submit"
                 className="button button__main"
-                disabled={loading}
+                disabled={process === "loading"}
               >
                 <div className="inner">find</div>
               </button>
@@ -84,9 +99,7 @@ const CharSearchForm = () => {
             />
           </Form>
         </Formik>
-        {results}
-        {errorMessage}
-        {loadingMessage}
+        {setContent(process, results, char)}
       </div>
     </>
   );
