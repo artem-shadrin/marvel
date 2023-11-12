@@ -10,8 +10,8 @@ import { useState } from "react";
 import { Link } from "react-router-dom";
 
 import "./charSearchForm.scss";
-import Spinner from "../spinner/Spinner";
-import ErrorMessage from "../errorMessage/ErrorMessage";
+import Spinner from "../spinner/Spinner.jsx";
+import ErrorMessage from "../errorMessage/ErrorMessage.jsx";
 
 const setContent = (process, Component, data) => {
   switch (process) {

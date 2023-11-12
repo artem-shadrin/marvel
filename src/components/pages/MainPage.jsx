@@ -1,9 +1,9 @@
-import { useState } from "react/cjs/react.development";
-import CharInfo from "../charInfo/CharInfo";
-import CharList from "../charList/CharList";
-import CharSearchForm from "../charSearchForm/CharSearchForm";
-import ErrorBoundary from "../errorBoundary/ErrorBoundary";
-import RandomChar from "../randomChar/RandomChar";
+import { useState } from "react";
+import CharInfo from "../charInfo/CharInfo.jsx";
+import CharList from "../charList/CharList.jsx";
+import CharSearchForm from "../charSearchForm/CharSearchForm.jsx";
+import ErrorBoundary from "../errorBoundary/ErrorBoundary.jsx";
+import RandomChar from "../randomChar/RandomChar.jsx";
 
 const MainPage = () => {
   const [charId, setCharId] = useState(null);

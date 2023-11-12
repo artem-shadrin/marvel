@@ -1,8 +1,8 @@
 import "./charList.scss";
 import { useMemo, useRef, useState } from "react";
-import Spinner from "../spinner/Spinner";
-import ErrorMessage from "../errorMessage/ErrorMessage";
-import { useEffect } from "react/cjs/react.development";
+import Spinner from "../spinner/Spinner.jsx";
+import ErrorMessage from "../errorMessage/ErrorMessage.jsx";
+import { useEffect } from "react";
 import useMarvelService from "../../services/marvelService";
 import { TransitionGroup, CSSTransition } from "react-transition-group";
 

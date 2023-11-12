@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 
 import useMarvelService from "../../services/marvelService";
 import { Link } from "react-router-dom";
-import setContent from "../../utils/setContent";
+import setContent from "../../utils/setContent.jsx";
 
 const CharInfo = ({ charId }) => {
   const [char, setChar] = useState(null);

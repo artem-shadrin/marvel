@@ -3,7 +3,7 @@ import useMarvelService from "../../services/marvelService";
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { TransitionGroup, CSSTransition } from "react-transition-group";
-import setContent from "../../utils/setContent";
+import setContent from "../../utils/setContent.jsx";
 
 const ComicsList = () => {
   const [comicsList, setComicsList] = useState([]);

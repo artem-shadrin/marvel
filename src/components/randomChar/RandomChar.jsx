@@ -3,7 +3,7 @@ import mjolnir from "../../resources/img/mjolnir.png";
 import { useEffect, useState } from "react";
 import useMarvelService from "../../services/marvelService";
 
-import setContent from "../../utils/setContent";
+import setContent from "../../utils/setContent.jsx";
 
 const RandomChar = () => {
   const [char, setChar] = useState(null);

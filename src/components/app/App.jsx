@@ -1,16 +1,16 @@
-import AppHeader from "../appHeader/AppHeader";
+import AppHeader from "../appHeader/AppHeader.jsx";
 import { lazy, Suspense } from "react";
 import decoration from "../../resources/img/vision.png";
 import { BrowserRouter, Route, Switch } from "react-router-dom";
 
-import Spinner from "../spinner/Spinner";
-import SinglePage from "../pages/SinglePage";
-import SingleCharacterLayout from "../pages/singeCharacterLayout/SingleCharacterLayout";
-import SingleComicLayout from "../pages/singleComicLayout/SingleComicLayout";
+import Spinner from "../spinner/Spinner.jsx";
+import SinglePage from "../pages/SinglePage.jsx";
+import SingleCharacterLayout from "../pages/singeCharacterLayout/SingleCharacterLayout.jsx";
+import SingleComicLayout from "../pages/singleComicLayout/SingleComicLayout.jsx";
 
-const ComicsPage = lazy(() => import("../pages/ComicPage"));
-const MainPage = lazy(() => import("../pages/MainPage"));
-const Page404 = lazy(() => import("../pages/Page404"));
+const ComicsPage = lazy(() => import("../pages/ComicPage.jsx"));
+const MainPage = lazy(() => import("../pages/MainPage.jsx"));
+const Page404 = lazy(() => import("../pages/Page404.jsx"));
 const App = () => {
   return (
     <BrowserRouter>
