@@ -13,7 +13,7 @@ const MainPage = lazy(() => import("../pages/MainPage.jsx"));
 const Page404 = lazy(() => import("../pages/Page404.jsx"));
 const App = () => {
   return (
-    <BrowserRouter>
+    <BrowserRouter basename={'marvel'}>
       <div className="app">
         <AppHeader />
         <main>
